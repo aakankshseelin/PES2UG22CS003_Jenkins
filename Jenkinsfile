@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    sh 'ls -l main'  // List files inside the "main" folder
                     sh 'g++ -o main/hello_exec main/hello.cpp'  // Compile hello.cpp
                 }
             }
@@ -13,7 +14,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh './main/non_existent_file'  // Intentional error: File does not exist
+                    sh './main/hello_exec'  // Run the compiled program
                 }
             }
         }
@@ -29,7 +30,7 @@ pipeline {
 
     post {
         failure {
-            echo 'Pipeline failed'  // Error message when pipeline fails
+            echo 'Pipeline failed'
         }
     }
 }
