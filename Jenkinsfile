@@ -1,20 +1,24 @@
 pipeline {
-    agent any  // Use any available Jenkins agent
+    agent any
+
     stages {
         stage('Build') {
             steps {
                 script {
-                    sh 'g++ -o hello_exec hello.cpp'  // Compiles hello.cpp
+                    sh 'ls -l main'  // List files inside the "main" folder
+                    sh 'g++ -o main/hello_exec main/hello.cpp'  // Compile hello.cpp
                 }
             }
         }
+
         stage('Test') {
             steps {
                 script {
-                    sh './hello_exec'  // Runs the compiled program
+                    sh './main/hello_exec'  // Run the compiled program
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
@@ -23,9 +27,10 @@ pipeline {
             }
         }
     }
+
     post {
         failure {
-            echo 'Pipeline failed'  // Displays message if any stage fails
+            echo 'Pipeline failed'
         }
     }
 }
